@@ -11,3 +11,9 @@ exports.answer = function (request, response) {
 		response.render('quizes/answer', {title: 'Quiz', respuesta: 'Incorrecta'});
 	}
 };
+
+// GET /author
+exports.author = function (request, response) {
+	console.log("Dentro de authot render");
+	response.render('author', {title: 'Quiz', nombre:'Jesús', apellido:'Iglesias', prueba:'prueba2'});
+}
