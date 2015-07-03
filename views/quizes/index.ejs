@@ -1,4 +1,37 @@
-   	
+      
+      <div class="row">
+         <div class="col-sm-12">
+            <form class="form-inline" method="get" action="/quizes">
+               <div class="text-center">
+                  <div class="form-group">
+                     <div class="input-group">
+                        <input type="search" class="form-control" id="idBuscar" name="search" placeholder="Introduce el texto a buscar" required="required">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="submit">Buscar</button>
+                        </span>
+                     </div> <!-- /input-group -->
+                  </div> <!-- /form-group -->
+               </div> <!-- /text-center -->
+            </form> <!-- /form -->
+         </div><!-- /.col-sm-12 -->
+      </div><!-- /.row -->
+            
+      <!-- Error: no hay similitudes en la búsqueda -->
+      <% if (mensaje) { %>
+      <br/>
+      <br/>
+      
+      <div class="container-fluid col-sm-5 col-sm-offset-4">
+         <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong> ¡Error!. No se encontró ninguna coincidencia con su búsqueda. </strong>
+         </div>
+      </div>
+      <% } %>
+      
+      <br/>
+      <br/>
+      
 	   <div class="container-fluid row-fluid text-center ">
          <div class="col-sm-12 col-sm-offset-3">
             <ul class="list-group listaAutor">

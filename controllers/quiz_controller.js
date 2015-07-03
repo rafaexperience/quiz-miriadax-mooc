@@ -16,12 +16,40 @@ exports.load = function(request, response, next, quizId) {
 
 
 // GET /quizes
-exports.index = function (request, response) {
+/*exports.index = function (request, response) {
 	models.Quiz.findAll().then(function(quizes) {
 		response.render('quizes/index', {quizes: quizes});
 	}
 	).catch(function(error) { next(error);});
+};*/
+exports.index = function (request, response) {
+	
+ 	var search = request.query.search;
+	
+	if (search == null) { // Mostrar todas las preguntas
+		
+		models.Quiz.findAll().then(function(quizes) {
+			response.render('quizes/index', {quizes: quizes, mensaje: false});
+		}).catch(function(error) { next(error);});
+		
+	} else { // Búsqueda de preguntas
+	
+		models.Quiz.findAll({where: ["pregunta like ?", '%'+search+'%'], order:'pregunta ASC'}).then(function(quizes) {
+			
+			console.log("contenido de quizes: " + quizes + " longitud: " + quizes.length);
+			
+			if (quizes.length == 0){
+				models.Quiz.findAll().then(function(quizes) {
+					response.render('quizes/index', {quizes: quizes, mensaje: true});
+				}).catch(function(error) { next(error);});
+				
+			} else {
+			response.render('quizes/index', {quizes: quizes, mensaje: false}); }
+		}
+		).catch(function(error) { next(error);});
+	}
 };
+
 
 // GET /quizes/question
 
