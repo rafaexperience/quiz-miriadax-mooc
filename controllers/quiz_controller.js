@@ -1,10 +1,26 @@
 var models = require('../models/models.js');
 
+// Autoload - factoriza el código si la ruta incluye :quizId
+exports.load = function(request, response, next, quizId) {
+	models.Quiz.find(quizId).then(
+		function (quiz) {
+			if (quiz) {
+				request.quiz = quiz;
+				next();
+			} else {
+				next(new Error("No existe quizId = " + quizId));
+			}
+		}
+		).catch(function(error) { next(error);});
+};
+
+
 // GET /quizes
 exports.index = function (request, response) {
 	models.Quiz.findAll().then(function(quizes) {
-		response.render('quizes/index', {title: 'Quiz', quizes: quizes});
-	});
+		response.render('quizes/index', {quizes: quizes});
+	}
+	).catch(function(error) { next(error);});
 };
 
 // GET /quizes/question
@@ -21,10 +37,13 @@ exports.index = function (request, response) {
 	});
 };*/
 // GET /quizes/:id
-exports.show = function (request, response) {
+/*exports.show = function (request, response) {
 	models.Quiz.find(request.params.quizId).then(function(quiz) {
 		response.render('quizes/show', {title: 'Quiz', quiz: quiz});
 	});
+};*/
+exports.show = function (request, response) {
+		response.render('quizes/show', {quiz: request.quiz});
 };
 
 // GET /quizes/answer
@@ -50,7 +69,7 @@ exports.show = function (request, response) {
 };*/
 
 // GET /quizes/:id/answer
-exports.answer = function (request, response) {
+/*exports.answer = function (request, response) {
 	models.Quiz.find(request.params.quizId).then(function(quiz) {
 		if (request.query.respuesta === quiz.respuesta) {
 			response.render('quizes/answer', {title: 'Quiz', quiz: quiz, respuesta: 'Correcta'});
@@ -58,9 +77,16 @@ exports.answer = function (request, response) {
 			response.render('quizes/answer', {title: 'Quiz', quiz: quiz, respuesta: 'Incorrecta'});
 		}
 	});
+};*/
+exports.answer = function (request, response) {
+	var resultado = "Incorrecta";
+	if (request.query.respuesta === request.quiz.respuesta) {
+		resultado = "Correcta";
+	}
+	response.render('quizes/answer', {quiz: request.quiz, respuesta: resultado});
 };
 
 // GET /author
 exports.author = function (request, response) {
-	response.render('author', {title: 'Quiz', nombre:'Jesús', apellido:'Iglesias'});
+	response.render('author', {nombre:'Jesús', apellido:'Iglesias'});
 }
