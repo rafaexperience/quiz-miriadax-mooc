@@ -16,6 +16,4 @@ router.get('/quizes/answer', quizController.answer);
 // HTTP-GET: Autor
 router.get('/author', quizController.author);
 
-console.log("llega");
-
 module.exports = router;
