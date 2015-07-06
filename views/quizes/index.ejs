@@ -32,14 +32,21 @@
       <br/>
       <br/>
       
-	   <div class="container-fluid row-fluid text-center ">
-         <div class="col-sm-12 col-sm-offset-3">
-            <ul class="list-group listaAutor">
-				<% var i; for (i=0; i < quizes.length; i++) { %>
-					<li class="list-group-item"> <a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a> </li>
-				<% } %>
-            </ul>
+	   <div class="container-fluid row-fluid text-center">
+               <div class="col-sm-12 col-sm-offset-3">
+                  <ul class="list-group listaAutor">
+      				<% var i; for (i=0; i < quizes.length; i++) { %>
+      					<li class="list-group-item"> <a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a> </li>
+      				<% } %>
+                  </ul>
+               </div>
          </div>
+      
+      <br/>
+      <div class="container-fluid row-fluid text-center">
+            <div class="col-sm-12">
+                  <a class="btn btn-primary btn-large text-center" href="/quizes/new"> Crear pregunta </a>
+            </div>
       </div>
    
     <br/>

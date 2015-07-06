@@ -114,6 +114,26 @@ exports.answer = function (request, response) {
 	response.render('quizes/answer', {quiz: request.quiz, respuesta: resultado});
 };
 
+// GET /quizes/new
+exports.new = function (request, response) {
+	var quiz = models.Quiz.build( // Crea objeto quiz
+		{
+			pregunta: "Pregunta",
+			respuesta: "Respuesta"
+		});
+	response.render('quizes/new', {quiz: quiz});
+};
+
+// POST /quizes/create
+exports.create = function (request, response) {
+	var quiz = models.Quiz.build(request.body.quiz);
+	
+	// Guarda los campos pregunta y respuesta de quiz en la BBDD
+	quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+		response.redirect('/quizes'); // Redirección HTTP - Lista de preguntas
+	});
+};
+
 // GET /author
 exports.author = function (request, response) {
 	response.render('author', {nombre:'Jesús', apellido:'Iglesias'});
