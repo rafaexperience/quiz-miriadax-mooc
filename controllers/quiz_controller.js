@@ -122,7 +122,8 @@ exports.new = function (request, response) {
 	var quiz = models.Quiz.build( // Crea objeto quiz
 		{
 			pregunta: "Pregunta",
-			respuesta: "Respuesta"
+			respuesta: "Respuesta",
+			indice: "Indice"
 		});
 	response.render('quizes/new', {quiz: quiz, errors: []});
 };
@@ -154,7 +155,7 @@ exports.create = function(request, response){
 		for (var prop in errors) errores[i++]={message: errors[prop]};
 		response.render('quizes/new', {quiz: quiz, errors: errores});
 	} else {
-		quiz.save({fields: ["pregunta", "respuesta"]}).then( function(){ response.redirect('/quizes')}) ;
+		quiz.save({fields: ["pregunta", "respuesta", "indice"]}).then( function(){ response.redirect('/quizes')}) ;
 	}
 };
 	// Guarda los campos pregunta y respuesta de quiz en la BBDD
@@ -172,7 +173,7 @@ exports.edit = function(request, response) {
 exports.update = function (request, response) {
 	request.quiz.pregunta = request.body.quiz.pregunta;
 	request.quiz.respuesta = request.body.quiz.respuesta;
-	
+	request.quiz.indice = request.body.quiz.indice;
 	
 	var errors = request.quiz.validate(); // Objeto errors no tiene then
 	if (errors) {
@@ -180,7 +181,7 @@ exports.update = function (request, response) {
 		for (var prop in errors) errores[i++]={message: errors[prop]};
 		response.render('quizes/edit', {quiz: request.quiz, errors: errores});
 	} else {
-		request.quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+		request.quiz.save({fields: ["pregunta", "respuesta", "indice"]}).then(function(){
 		response.redirect('/quizes'); });
 	}
 };
