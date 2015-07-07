@@ -15,6 +15,10 @@
         .listaAutor {
             width: 50%;
         }
+        #msgError {
+            color: red;
+        }
+        
     </style>
     
   </head>
@@ -54,6 +58,30 @@
         </div>
     </nav>
     
+    <!-- Mensaje de error en caso de que se introduzca una pregunta o respuesta vacía -->
+    <% if (errors.length) { %>
+              
+        <br/>    
+      
+        <div class="container-fluid col-sm-5 col-sm-offset-4">
+         <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong> ¡Error! </strong>
+                <% for (var i in errors) { %>
+                    <ul>
+                        <li><%= errors[i].message %> </li>
+                    </ul>
+               <% } %>
+         </div>
+      </div>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+
+    <% } %> 
+                
    <p>
      <!-- HTML importado -->
      <%- body %>
@@ -67,8 +95,8 @@
     
     <!-- Inclusión de ficheros JavaScript -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-      
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+          
   </body>
 </html>
   

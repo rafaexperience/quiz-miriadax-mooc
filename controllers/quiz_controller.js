@@ -29,22 +29,25 @@ exports.index = function (request, response) {
 	if (search == null) { // Mostrar todas las preguntas
 		
 		models.Quiz.findAll().then(function(quizes) {
-			response.render('quizes/index', {quizes: quizes, mensaje: false});
+			response.render('quizes/index', {quizes: quizes, mensaje: false, errors: []});
 		}).catch(function(error) { next(error);});
 		
 	} else { // Búsqueda de preguntas
 	
-		models.Quiz.findAll({where: ["pregunta like ?", '%'+search+'%'], order:'pregunta ASC'}).then(function(quizes) {
+		// Búsqueda de frases
+		search = '%'+request.query.search.replace(/ /, '%')+'%';
+	
+		models.Quiz.findAll({where: ["pregunta like ?", search], order:'pregunta ASC'}).then(function(quizes) {
 			
 			console.log("contenido de quizes: " + quizes + " longitud: " + quizes.length);
 			
 			if (quizes.length == 0){
 				models.Quiz.findAll().then(function(quizes) {
-					response.render('quizes/index', {quizes: quizes, mensaje: true});
+					response.render('quizes/index', {quizes: quizes, mensaje: true, errors: []});
 				}).catch(function(error) { next(error);});
 				
 			} else {
-			response.render('quizes/index', {quizes: quizes, mensaje: false}); }
+			response.render('quizes/index', {quizes: quizes, mensaje: false, errors: []}); }
 		}
 		).catch(function(error) { next(error);});
 	}
@@ -71,7 +74,7 @@ exports.index = function (request, response) {
 	});
 };*/
 exports.show = function (request, response) {
-		response.render('quizes/show', {quiz: request.quiz});
+	response.render('quizes/show', {quiz: request.quiz, errors: []});
 };
 
 // GET /quizes/answer
@@ -111,7 +114,7 @@ exports.answer = function (request, response) {
 	if (request.query.respuesta === request.quiz.respuesta) {
 		resultado = "Correcta";
 	}
-	response.render('quizes/answer', {quiz: request.quiz, respuesta: resultado});
+	response.render('quizes/answer', {quiz: request.quiz, respuesta: resultado, errors: []});
 };
 
 // GET /quizes/new
@@ -121,20 +124,45 @@ exports.new = function (request, response) {
 			pregunta: "Pregunta",
 			respuesta: "Respuesta"
 		});
-	response.render('quizes/new', {quiz: quiz});
+	response.render('quizes/new', {quiz: quiz, errors: []});
 };
 
 // POST /quizes/create
-exports.create = function (request, response) {
+/*exports.create = function (request, response) {
 	var quiz = models.Quiz.build(request.body.quiz);
 	
-	// Guarda los campos pregunta y respuesta de quiz en la BBDD
-	quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
-		response.redirect('/quizes'); // Redirección HTTP - Lista de preguntas
-	});
+	// Validación de campos de entrada y almacenamiento de los campos pregunta y respuesta de quiz en la BBDD
+	quiz.validate().then(
+		function (err) {
+			if (err) {
+				response.render('quizes/new', {quiz: quiz, errors: err.errors});			
+			} else {
+				quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+				response.redirect('/quizes'); });
+			}	
+		}
+	);	
+};*/
+
+exports.create = function(request, response){
+	var quiz = models.Quiz.build( request.body.quiz );
+
+	var errors = quiz.validate(); // Objeto errors no tiene then
+	if (errors) {
+		var i=0; var errores=new Array();//se convierte en [] con la propiedad message por compatibilidad con layout
+		for (var prop in errors) errores[i++]={message: errors[prop]};
+		response.render('quizes/new', {quiz: quiz, errors: errores});
+	} else {
+		quiz.save({fields: ["pregunta", "respuesta"]}).then( function(){ response.redirect('/quizes')}) ;
+	}
 };
+	// Guarda los campos pregunta y respuesta de quiz en la BBDD
+	/*quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+		response.redirect('/quizes'); // Redirección HTTP - Lista de preguntas
+	});*/
+
 
 // GET /author
 exports.author = function (request, response) {
-	response.render('author', {nombre:'Jesús', apellido:'Iglesias'});
+	response.render('author', {nombre:'Jesús', apellido:'Iglesias', errors: []});
 }
