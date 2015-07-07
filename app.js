@@ -6,7 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // Módulo para HTML común
-var partials = require('express-partials')
+var partials = require('express-partials');
+
+// Módulo para encapsular el método
+var methodOverride = require('method-override');
 
 // Obtención de rutas
 var routes = require('./routes/index');
@@ -30,6 +33,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Uso de express-partials
 app.use(partials());
+
+// Uso de method-override
+app.use(methodOverride('_method'));
 
 // Rutas
 app.use('/', routes);

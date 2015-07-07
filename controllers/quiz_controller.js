@@ -127,7 +127,7 @@ exports.new = function (request, response) {
 	response.render('quizes/new', {quiz: quiz, errors: []});
 };
 
-// POST /quizes/create
+
 /*exports.create = function (request, response) {
 	var quiz = models.Quiz.build(request.body.quiz);
 	
@@ -144,6 +144,7 @@ exports.new = function (request, response) {
 	);	
 };*/
 
+// POST /quizes/create
 exports.create = function(request, response){
 	var quiz = models.Quiz.build( request.body.quiz );
 
@@ -161,6 +162,47 @@ exports.create = function(request, response){
 		response.redirect('/quizes'); // Redirección HTTP - Lista de preguntas
 	});*/
 
+// GET /quizes/:id/edit
+exports.edit = function(request, response) {
+	var quiz = request.quiz; // Autoload de instancia de quiz
+	response.render('quizes/edit', {quiz: quiz, errors: []});
+};
+
+// PUT /quizes/:id
+exports.update = function (request, response) {
+	request.quiz.pregunta = request.body.quiz.pregunta;
+	request.quiz.respuesta = request.body.quiz.respuesta;
+	
+	
+	var errors = request.quiz.validate(); // Objeto errors no tiene then
+	if (errors) {
+		var i=0; var errores=new Array();//se convierte en [] con la propiedad message por compatibilidad con layout
+		for (var prop in errors) errores[i++]={message: errors[prop]};
+		response.render('quizes/edit', {quiz: request.quiz, errors: errores});
+	} else {
+		request.quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+		response.redirect('/quizes'); });
+	}
+};
+	
+	/*request.quiz.validate().then(	
+		function (err) {
+			if (err) {
+				response.render('quizes/edit', {quiz: request.quiz, errors: err.errors});			
+			} else {
+				request.quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+				response.redirect('/quizes'); });
+			}	
+		}
+	);
+};*/
+
+// DELETE /quizes/:id
+exports.destroy = function (request, response) {
+	request.quiz.destroy().then( function (){
+		response.redirect('/quizes');
+	}).catch(function (error) { next(error)});
+};
 
 // GET /author
 exports.author = function (request, response) {

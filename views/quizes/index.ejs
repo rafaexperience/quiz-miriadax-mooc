@@ -36,7 +36,35 @@
                <div class="col-sm-12 col-sm-offset-3">
                   <ul class="list-group listaAutor">
       				<% var i; for (i=0; i < quizes.length; i++) { %>
-      					<li class="list-group-item"> <a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a> </li>
+      					<li class="list-group-item"> 
+                                          <div class="col-sm-3">
+                                                <a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a> 
+                                          </div>
+                                          
+                                           
+                                          <div class="col-sm-1 col-sm-offset-5"> 
+                                                <a href="quizes/<%= quizes[i].id %>/edit"> <button class="btn btn-default btn-xs">Editar</button></a>
+                                          </div>
+                                          
+                                          <div class="col-sm-1">
+                                                <form class="form-inline" method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
+                                                   <div class="text-center">
+                                                                                                                                                                                      
+                                                      <div class="form-group">
+                                                         <div class="input-group">                                                                               
+                                                            <span class="input-group-btn">
+                                                              <button class="btn btn-default btn-xs" type="submit" onclick="return confirm('Borrar: <%= quizes[i].pregunta %>');">Borrar</button>
+                                                            </span>
+                                                        </div> <!-- /input-group -->
+                                                      </div> <!-- /form-group -->  
+                                                      
+                                                   </div> <!-- /text-center -->
+                                                </form> <!-- /form -->
+                                          </div>
+                                          
+                                          <br/>
+                                       
+                                   </li>
       				<% } %>
                   </ul>
                </div>

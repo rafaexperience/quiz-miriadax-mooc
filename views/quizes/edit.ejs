@@ -1,0 +1,10 @@
+<div class="container-fluid text-center">
+	<h4> Edite la pregunta: </h4>
+	
+	<br/>
+	
+	<form method="post" action="/quizes/<%= quiz.id %>?_method=put">
+		<% include _form.ejs %>
+	</form>
+</div>
+	
