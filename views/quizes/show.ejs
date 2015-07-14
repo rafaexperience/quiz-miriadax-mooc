@@ -1,18 +1,47 @@
 
     <div class="container-fluid">
-      <form class="form-inline" method="get" action="/quizes/<%= quiz.id %>/answer">
-        <h3 class="text-center"> Pregunta: <%= quiz.pregunta %> </h3>
-        <p class="text-center"> Índice temático: <%= quiz.indice %> <p>
+        <form class="form-inline" method="get" action="/quizes/<%= quiz.id %>/answer">
+            <h3 class="text-center"> Pregunta: <%= quiz.pregunta %> </h3>
+            <p class="text-center"> Índice temático: <%= quiz.indice %> <p>
+            <br/>
+            <br/>
+            <div class="text-center">
+                <div class="form-group">
+                    <label for="idRespuesta">Indique su respuesta: </label>
+                    <input type="text" class="form-control" id="idRespuesta" name="respuesta" placeholder="Respuesta" required="required">
+                </div>
+                <button type="submit" class="btn btn-primary"> Enviar </button>
+            </div>
+        </form>
+      
         <br/>
         <br/>
-        <div class="text-center">
-          <div class="form-group">
-            <label for="idRespuesta">Indique su respuesta: </label>
-            <input type="text" class="form-control" id="idRespuesta" name="respuesta" placeholder="Respuesta" required="required">
-          </div>
-          <button type="submit" class="btn btn-primary"> Enviar </button>
+        
+        <div class="col-sm-12 text-center">      
+            <a href="/quizes/<%= quiz.id %>/comments/new"><button class="btn btn-primary btn-sm"> Nuevo comentario </button></a>
         </div>
-      </form>
+        
+        <br/>
+        <br/>
+        
+        <h4 class="text-center"> Comentarios: </h4>
+      
+        <% console.log ("Titulo comentarios"); %>
+        
+        <% for(index in quiz.Comments) { %>
+            <% if(quiz.Comments[index].publicado || session.user){ %> 
+                <ul>               
+                    <li class="text-center"> <%= quiz.Comments[index].texto %> 
+                        <% if(session.user && !quiz.Comments[index].publicado) { %>
+                            <a href="/quizes/<%= quiz.id %>/comments/<%= quiz.Comments[index].id %>/publish">
+                                <button class="btn btn-default btn-xs"> Publicar </button></a>
+                        <% } %>
+                    </li>
+                </ul>
+             <% } %>
+        <% } %>
+      
+      <% console.log ("Fin Titulo comentarios"); %> 
     </div>
        
     <br/>

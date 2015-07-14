@@ -2,8 +2,10 @@ var models = require('../models/models.js');
 
 // Autoload - factoriza el código si la ruta incluye :quizId
 exports.load = function(request, response, next, quizId) {
-	models.Quiz.find(quizId).then(
-		function (quiz) {
+	models.Quiz.find({
+		where: { id:  Number(quizId) },
+		include: [{ model: models.Comment }]
+	}).then(function (quiz) {
 			if (quiz) {
 				request.quiz = quiz;
 				next();
@@ -177,7 +179,7 @@ exports.update = function (request, response) {
 	
 	var errors = request.quiz.validate(); // Objeto errors no tiene then
 	if (errors) {
-		var i=0; var errores=new Array();//se convierte en [] con la propiedad message por compatibilidad con layout
+		var i=0; var errores=new Array(); // Se convierte en [] con la propiedad message por compatibilidad con layout
 		for (var prop in errors) errores[i++]={message: errors[prop]};
 		response.render('quizes/edit', {quiz: request.quiz, errors: errores});
 	} else {

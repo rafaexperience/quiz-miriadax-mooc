@@ -18,6 +18,9 @@
         #msgError {
             color: red;
         }
+        #user {
+            color: white;
+        }
         
     </style>
     
@@ -52,7 +55,15 @@
                     <li><a href="/" class="active"> Inicio </a><span class="sr-only">current</span></li>
                     <!--<li><a href="/quizes/question" class="navbar-brand"> Preguntas </a></li>   -->
                     <li><a href="/quizes" class="navbar-brand"> Preguntas </a></li> 
-                    <li><a href="/author" class="navbar-brand"> Créditos </a></li>              
+                    <li><a href="/author" class="navbar-brand"> Créditos </a></li>                                                                   
+                </ul>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    <% if(!session.user) { %>
+                        <li><a href="/login" class="navbar-brand text-right"> Login </a></li>        
+                    <% } else { %>
+                        <li> <span id="user"><%= session.user.username %></span> <a href="/logout" class="navbar-brand"> Logout </a></li>        
+                    <% } %>
                 </ul>
             </div>
         </div>

@@ -37,16 +37,17 @@
                   <ul class="list-group listaAutor">
       				<% var i; for (i=0; i < quizes.length; i++) { %>
       					<li class="list-group-item"> 
-                                          <div class="col-sm-3">
+                                          <div class="col-sm-4">
                                                 <a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a> 
                                           </div>
                                           
-                                           
-                                          <div class="col-sm-1 col-sm-offset-5"> 
+                                          <% if (session.user) { %>
+                                                
+                                          <div class="col-sm-1 col-sm-offset-4"> 
                                                 <a href="quizes/<%= quizes[i].id %>/edit"> <button class="btn btn-default btn-xs">Editar</button></a>
                                           </div>
                                           
-                                          <div class="col-sm-1">
+                                          <div class="col-sm-1 col-sm-offset-1">
                                                 <form class="form-inline" method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
                                                    <div class="text-center">
                                                                                                                                                                                       
@@ -62,6 +63,8 @@
                                                 </form> <!-- /form -->
                                           </div>
                                           
+                                          <% } %>
+                                          
                                           <br/>
                                        
                                    </li>
@@ -70,12 +73,14 @@
                </div>
          </div>
       
+      <% if (session.user) { %>
       <br/>
       <div class="container-fluid row-fluid text-center">
             <div class="col-sm-12">
                   <a class="btn btn-primary btn-large text-center" href="/quizes/new"> Crear pregunta </a>
             </div>
       </div>
+      <% } %>
    
     <br/>
     <br/>
