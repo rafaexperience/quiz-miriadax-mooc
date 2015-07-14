@@ -39,23 +39,6 @@ exports.create = function (request, response) {
 			}
 		}
 	).catch(function(error){ next(error)});
-	
-	/*var errors = comment.validate();
-	if (errors) {
-		var i=0; 
-		var errores=new Array(); // Se convierte en [] con la propiedad message por compatibilidad con layout
-		
-		for (var prop in errors) errores[i++]={
-			message: errors[prop]
-		};
-		
-		response.render('comments/new.ejs', {
-			comment: comment, quizid: request.params.quizId, errors: errores
-		});
-		
-	} else {
-		comment.save().then( function() { response.redirect('/quizes/'+request.params.quizId)})
-	}*/
 };
 	
 // GET /quizes/:quizId/comments/:commentId/publish
