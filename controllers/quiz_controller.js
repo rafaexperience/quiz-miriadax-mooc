@@ -16,7 +16,6 @@ exports.load = function(request, response, next, quizId) {
 		).catch(function(error) { next(error);});
 };
 
-
 // GET /quizes
 /*exports.index = function (request, response) {
 	models.Quiz.findAll().then(function(quizes) {
@@ -54,7 +53,6 @@ exports.index = function (request, response) {
 		).catch(function(error) { next(error);});
 	}
 };
-
 
 // GET /quizes/question
 
