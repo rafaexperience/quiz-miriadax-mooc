@@ -2,6 +2,9 @@
 
 var path = require('path');
 
+// Cargar modelo ORM - sequelize.js
+var Sequelize = require('sequelize');
+
 // Postgres DATABASE_URL = postgres://user:passwd@host:port/database
 // SQLite DATABASE_URL = sqlite://:@:/
 
@@ -15,9 +18,6 @@ var dialect  = (url[1]||null);
 var port     = (url[5]||null);
 var host     = (url[4]||null);
 var storage  = process.env.DATABASE_STORAGE;
-
-// Cargar modelo ORM - sequelize.js
-var Sequelize = require('sequelize');
 
 // Usar BBDD SQLite
 //var sequelize = new Sequelize(null, null, null, {dialect: "sqlite", storage: "quiz.sqlite"}); 
@@ -53,7 +53,8 @@ exports.Quiz = Quiz;
 exports.Comment = Comment;
 
 // Crea e inicializa tabla de preguntas en DB
-sequelize.sync().success(function() {
+sequelize.sync().then(function() {
+//sequelize.sync().success(function() {
 	// Success() - ejecuta el manejador una vez creada la tabla
 	Quiz.count().success(function (count) {
 		if (count === 0) { // Si tabla vacía, se inicializa
