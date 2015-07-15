@@ -56,7 +56,8 @@ exports.Comment = Comment;
 sequelize.sync().then(function() {
 //sequelize.sync().success(function() {
 	// Success() - ejecuta el manejador una vez creada la tabla
-	Quiz.count().success(function (count) {
+	Quiz.count().then(function (count) {
+	//Quiz.count().success(function (count) {
 		if (count === 0) { // Si tabla vacía, se inicializa
 			Quiz.create({
 				pregunta: 'Capital de Italia',
