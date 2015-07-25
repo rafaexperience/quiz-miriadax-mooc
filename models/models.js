@@ -69,7 +69,8 @@ sequelize.sync().then(function() {
 				respuesta: 'Lisboa',
 				indice: 'Ciencia'
 			})
-		.success(function () { console.log('Base de datos inicializada'); });
+		//.success(function () { console.log('Base de datos inicializada'); });
+		.then(function () { console.log('Base de datos inicializada'); });
 		};
 	});
 });
